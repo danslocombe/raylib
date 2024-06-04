@@ -12,7 +12,7 @@ pub fn addRaylib(b: *std.build.Builder, target: std.zig.CrossTarget, optimize: s
     const raylib = b.addStaticLibrary(.{ .name = "raylib", .target = target, .optimize = optimize });
     raylib.linkLibC();
 
-    raylib.addIncludePath(srcdir ++ "/external/glfw/include");
+    raylib.addIncludePath(.{.path = srcdir ++ "/external/glfw/include"});
 
     raylib.addCSourceFiles(&.{
         srcdir ++ "/raudio.c",
@@ -30,7 +30,7 @@ pub fn addRaylib(b: *std.build.Builder, target: std.zig.CrossTarget, optimize: s
             raylib.linkSystemLibrary("winmm");
             raylib.linkSystemLibrary("gdi32");
             raylib.linkSystemLibrary("opengl32");
-            raylib.addIncludePath("external/glfw/deps/mingw");
+            raylib.addIncludePath(.{.path ="external/glfw/deps/mingw"});
         },
         .linux => {
             raylib.addCSourceFiles(&.{srcdir ++ "/rglfw.c"}, raylib_flags);
