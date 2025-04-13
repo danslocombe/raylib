@@ -1701,7 +1701,13 @@ void WaitTime(double seconds)
     while (GetTime() < destinationTime) { }
 #else
     #if defined(SUPPORT_PARTIALBUSY_WAIT_LOOP)
-        double sleepSeconds = seconds - seconds*0.05;  // NOTE: We reserve a percentage of the time for busy waiting
+        // Precision up to 2ms
+        // Busy wait for rest.
+        double sleepSeconds = seconds - 0.002;
+        if (sleepSeconds < 0.0) {
+            sleepSeconds = 0.0;
+        }
+        //double sleepSeconds = seconds - seconds*0.05;  // NOTE: We reserve a percentage of the time for busy waiting
     #else
         double sleepSeconds = seconds;
     #endif
